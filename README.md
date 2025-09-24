@@ -212,7 +212,7 @@ OBS: O Android é o único que pode permanecer com erro porque se refere a uma v
 
         adb shell dumpsys window | grep -E 'mCurrentFocus|mFocusedApp'
 
-    ![alt text](image-10.png)
+    ![alt text](image-15.png)
 
     - appPackage -> o que está antes da barra
 
