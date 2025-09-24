@@ -236,16 +236,20 @@ OBS: O Android é o único que pode permanecer com erro porque se refere a uma v
 
 ### 8. Para iniciar o ambiente:
 
-1- Abrir o emulador por meio do Android studio.
+8.1 - Abrir o emulador por meio do Android studio.
 
-2- Subir o aapium executando o comando:
+![alt text](image-14.png)
+
+8.2 - Subir o aapium executando o comando:
 
     appium
 
-3- Abrir o appium inspector e inserir o Capabilities. 
+![alt text](image-12.png)
+
+8.3 - Abrir o appium inspector e inserir o Capabilities. 
 Na pasta do appium-inspector, executar o comando: 
 
     ./appium-inspector
 
-
+![alt text](image-13.png)
 
