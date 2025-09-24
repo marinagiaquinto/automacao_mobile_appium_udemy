@@ -2,9 +2,6 @@
 
 ### Pré-requisitos para utilização do Appium:
 
-1- NodeJs - https://nodejs.org/pt/download
-
-2- JDK 11 Java - https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html
 
 ### Setup appium:
 
@@ -32,71 +29,145 @@ depois:
 
     appium-doctor --android
 
-6- Install latest Android Studio via exe file - https://developer.android.com/studio
-
-7- Install Appium Inspector - github.com/appium/appium-inspector/releases
+    Agora vamos corrigir o que aparece com "x" na primeira listagem (obrigatórios)
 
 
+6 - Appium-inspector (Interface do Appium)
+
+    https://github.com/appium/appium-inspector/releases -> baixe
+    - Transfira a página para o diretório raiz (home/marina)
+    - Tire o zipe da pasta se ela estiver zipada
+    - Entre na pasta
+    - Execute : ./appium-inspector
+    - Se não funcionar, instale dependências e reveja as permissões:
+
+        sudo apt-get install libnss3 libasound2 libnspr4 libgconf-2-4 libgtk-3-0
+
+        chmod +x appium-inspector
+    - Refaça o comando: ./appium-inspector
 
 
-8- Env variable setup
+7- JAVA-HOME
 
-  - Abra o Android Studio
+Verifique se já possui o Java e se não tiver, instale. 
+    java -- version
 
-  - Na tela inicial clique o item Configure e depois no item SDK Manager
+    sudo apt install openjdk-8-jdk
 
-  - Copie o caminho apresentado no campo Android SDK Location
+Copie a resposta do comando, caminho de onde está o seu JDK (ex: /usr/lib/jvm/java-21-openjdk-amd64)
 
-  -  Vá até as Variáveis de Ambiente no Windows e:
+    update-alternatives --config java 
 
-      - Adicione a seguinte variável com o respectivo valor e clique em OK
+Abra o arquivo bashrc
+    sudo vim ~/.bashrc
 
-         a. Nome da variável: `ANDROID_HOME`
+Teclado: insert -> ativar modo de inserção para alterar o arquivo
 
-         b. Valor da variável: Diretório presente no campo ***Android SDK Location***
+Navegue até o final do arquivo e cole: 
 
-      - Selecione a variável `PATH` e clique em Editar...
-    
-      - Clique no botão Novo e adicione o seguinte valor de variável
-         a.  `o %ANDROID_HOME%\tools`
+    export $JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
 
-      - Clique novamente no botão Novo e adicione o seguinte valor de variável
+Teclado: esc -> sair do modo de inserção
 
-         a. `%ANDROID_HOME%\tools\bin`
+Salvar e sair do arquivo (w - escrever no arquivo; q salvar e sair do arquivo):
+    :wq! 
 
-      - Clique novamente no botão Novo e adicione o seguinte valor de variável
+Verificar se o arquivo foi alterado com sucesso:    
+    cat ~/.bashrc
 
-         a. `%ANDROID_HOME%\platform-tools`
+Recarregue o arquivo sem ter que reabrir o terminal 
+    source ~/.bashrc  
+
+Agora, no appium-doctor a variável JAVA-HOME deve aparecer com check
+    appium-doctor --android
+
+8- Baixar o androide studio (ADB Tools)
+ 
+    sudo apt install android-tools-adb
+    adb version
+
+Para abrir o Androide studio, produre ele entre suas ferramentas.
+
+9 - Android Virtual Device (Dispositivo Virtual Android) - AVD (dentro do Android Studio)
+
+![alt text](image-5.png)
+
+
+More Actions > Virtual Device Manager > Create Virtual Device > name > sistema recomendado > finish > start 
+
+![alt text](image-1.png)
+
+![alt text](image-2.png)
+
+![alt text](image-3.png)
+
+![alt text](image-4.png)
 
 
 
-9- Verificar o setup: adb devices ou adb
+Erro : /dev/kvm device: permission denied.
 
-10- Instalar um novo dispositivo: https://developer.android.com/studio/run/managing-avds?hl=pt-br
+![alt text](image.png)
 
-11- INSTALAR OS APLICATIVOS NO EMULADOR: https://drive.google.com/drive/folders/1soPlNjkL5MIgvbXNMmuusbbxZmVNVPfG
+solução: https://stackoverflow.com/questions/37300811/android-studio-dev-kvm-device-permission-denied  
+
+grep kvm /etc/group -> Para verificar quais usuários estão no kvmgrupo
+
+sudo adduser $USER kvm -> Para adicionar seu usuário
+
+grep kvm /etc/group -> para verificar novamente se seu usuário aparaceu no root. 
+
+Reiniciar pc
+
+Erro de virtualização aninhada 
+https://stackoverflow.com/questions/70910844/android-emulator-problem-related-with-nested-virtualization 
+
+
+
+10 - Software Development Kit - SDK (dentro do Android Studio)
+
+Ele contém os componentes necessários para desenvolver, depurar e testar apps, como compiladores, depuradores, emuladores e acesso às APIs do sistema, e é gerenciado através do SDK Manager dentro do próprio Android Studio
+
+![alt text](image-6.png)
+
+Abra o arquivo bashrc
+    sudo vim ~/.bashrc
+
+Teclado: insert -> ativar modo de inserção para alterar o arquivo
+
+Navegue até o final do arquivo e cole: 
+
+    export PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin
+
+Teclado: esc -> sair do modo de inserção
+
+Salvar e sair do arquivo (w - escrever no arquivo; q salvar e sair do arquivo):
+    :wq! 
+
+Verificar se o arquivo foi alterado com sucesso:    
+    cat ~/.bashrc
+
+Recarregue o arquivo sem ter que reabrir o terminal 
+    source ~/.bashrc  
+
+Agora, no appium-doctor o adb, emulator e o apkanalyzer deve aparecer com check
+    appium-doctor --android
+
 
 
 
 
 ### Capabilities:
 
+
 {
-
-"appium:platformName": "Android",
-
-"appium:platformVersion": "13.0",
-
-"appium:automationName": "UIAutomator2",
-
-"appium:deviceName": "emulator-5554",
-
-"appium:appPackage": "io.appium.android.apis",
-
-"appium:appActivity": ".ApiDemos"
-
+  "appium:platformName": "Android",
+  "appium:platformVersion": "16.0",
+  "appium:automationName": "UIAutomator2",
+  "appium:deviceName": "Pixel 8",
+  "appium:appPackage": "com.google.android.apps.nexuslauncher",
+  "appium:appActivity": ".NexusLauncherActivity"
 }
-
 
 
 
@@ -107,3 +178,5 @@ depois:
 2- appium (Por meio da linha de comando)
 
 3- appium inspector
+
+
